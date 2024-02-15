@@ -1,0 +1,18 @@
+{
+  "last_processed_record": -1,
+
+  "open_source_contracts": [
+    {
+      "address": "",
+      "total_number_of_txns": 0,
+      "total_number_of_oug_txns": 0,
+      "feature_vector": [ 0, 0, 0, 0, 0, 0]
+    },
+    {
+      "address": "",
+      "total_number_of_txns": 0,
+      "total_number_of_oug_txns": 0,
+      "feature_vector": [ 0, 0, 0, 0, 0, 0]
+    }
+  ]
+}
