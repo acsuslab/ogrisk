@@ -12,7 +12,7 @@ def find_out_of_gas_failure():
             'action': 'getLogs',
             'fromBlock': '0x0',
             'toBlock': 'latest',
-            'status': '0',  # Failed transactions
+            'status': '1',  # Failed transactions
             'topic0': '0x0000000000000000000000000000000000000000000000000000000000000001',  # Topic for out-of-gas failure
             'page': page,
             'apikey': API_KEY
