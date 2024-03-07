@@ -5,11 +5,9 @@ from dotenv import load_dotenv
 
 ETHERSCAN_API_URL = 'https://api.etherscan.io/api'
 
-# Load environment variables from the .env file
-load_dotenv()
 
 # Retrieve the API key from the environment variables
-API_KEY = os.getenv('API_KEY')
+API_KEY = 'NYT56C8D9I25IIKKRE7SJZH15X4CKY68YY'
 
 data = {}
 data['current_contract_index'] = 0
@@ -128,7 +126,7 @@ def getAddressData(address):
     return result
 
 #!!!only getting from test folder
-with os.scandir("/Volumes/External-Storage/smart-contract-sanctuary-ethereum/contracts/test") as it:
+with os.scandir("/Users/user/Desktop/Rowan PhD Data Science/Spring 2024/CS 07556_Machine Learning 1/Paper project/smart-contract-sanctuary-ethereum-master/contracts/mainnet/00") as it:
     for entry in it:
         if entry.name.endswith(".sol") and entry.is_file():
             split_filename = entry.name.split("_")
