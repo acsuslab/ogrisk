@@ -18,6 +18,7 @@ data['open_source_contracts'] = []
 #Specify the file path to write the data to
 file_path = "data-test.json"
 
+#checking if there is an exisiting output file
 if os.path.exists(file_path):
     with open(file_path, 'r') as json_file:
         existing_data = json.load(json_file)
