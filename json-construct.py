@@ -125,7 +125,7 @@ def getAddressData(address):
     return result
 
 #!!!only getting from test folder
-with os.scandir("/Users/user/Desktop/Rowan PhD Data Science/Spring 2024/CS 07556_Machine Learning 1/Paper project/smart-contract-sanctuary-ethereum-master/contracts/mainnet/00") as it:
+with os.scandir("/Users/user/Desktop/Rowan PhD Data Science/Spring 2024/CS 07556_Machine Learning 1/Paper project/smart-contract-sanctuary-ethereum-master/contracts/mainnet/ff") as it:
     for entry in it:
         if entry.name.endswith(".sol") and entry.is_file():
             split_filename = entry.name.split("_")
