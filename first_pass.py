@@ -17,10 +17,10 @@ mainnet_foldernames = []
 num_addresses = 0
 
 #!!! change this to whatever filepath the contract folders are held in
-smart_contracts_file_path = "/Volumes/External-Storage/smart-contract-sanctuary-ethereum/contracts/mainnet"
+smart_contracts_file_path = "/Users/user/Desktop/Rowan PhD Data Science/Spring 2024/CS 07556_Machine Learning 1/Paper project/smart-contract-sanctuary-ethereum-master/contracts/mainnet/"
 
 #!!! change this to whatever file you want the addresses to be written to
-file_path = "data.json"
+file_path = "/Users/user/Desktop/Rowan PhD Data Science/Spring 2024/CS 07556_Machine Learning 1/Paper project/OGRISK_EtereumAPI/data.json"
 
 #getting the foldernames from the mainnet directory
 mainnet_foldernames = filtered_files = [file for file in os.listdir(smart_contracts_file_path) if '.' not in file]
