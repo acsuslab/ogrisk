@@ -73,7 +73,7 @@ def get_pragma_code(address):
 def calculate_gas_variability(data):
     gas_variability = {}
     for txn in data['result']:
-        method_id = txn['input'][:10]
+        method_id = txn['input'][:10] #first 4 bytes (8 hexadecimal characters or 10 characters if including the '0x' prefix) of the input data.
         gas_used = int(txn['gasUsed'])
         if txn['isError'] == "0":  # Only considering successful transactions
             if method_id not in gas_variability:
