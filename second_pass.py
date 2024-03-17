@@ -3,6 +3,8 @@ import os
 import requests
 import time
 from dotenv import load_dotenv
+from statistics import mean, stdev
+
 
 # Constants
 ETHERSCAN_API_URL = 'https://api.etherscan.io/api'
@@ -66,6 +68,41 @@ def get_pragma_code(address):
         print(f"API request error for getting pragma code: {data['result']}\n")
         return "Error in getting pragma code"
 
+
+# Calculate the variability in gas consumption by function (methodID) for each smart contract
+def calculate_gas_variability(data):
+    gas_variability = {}
+    for txn in data['result']:
+        method_id = txn['input'][:10]
+        gas_used = int(txn['gasUsed'])
+        if txn['isError'] == "0":  # Only considering successful transactions
+            if method_id not in gas_variability:
+                gas_variability[method_id] = [gas_used]
+            else:
+                gas_variability[method_id].append(gas_used)
+
+    variability_results = {}
+    for method_id, gas_list in gas_variability.items():
+        mean_gas = mean(gas_list)
+        if len(gas_list) > 1:
+            gas_stdev = stdev(gas_list)
+            coefficient_of_variation = (gas_stdev / mean_gas) * 100 if mean_gas != 0 else float('inf')
+        else:
+            coefficient_of_variation = 0
+        variability_results[method_id] = round(coefficient_of_variation, 4)
+
+    return variability_results
+
+# Retrieve the maximum gas consumed by all transactions
+def get_max_gas_used_all(data):
+    all_transactions_gas = [int(txn['gasUsed']) for txn in data['result']]
+    return round(max(all_transactions_gas) if all_transactions_gas else 0, 4)
+
+# Retrieve the maximum gas consumed by a transaction that ran out of gas in a contract
+def get_max_gas_used_oog(data):
+    oog_transactions_gas = [int(txn['gasUsed']) for txn in data['result'] if txn['isError'] == "1" and get_txn_data(txn['hash']).lower() == "out of gas"]
+    return round(max(oog_transactions_gas) if oog_transactions_gas else 0, 4)
+
 # Retrieve address data including transaction details
 def get_address_data(address):
     result = {}
@@ -75,19 +112,13 @@ def get_address_data(address):
         data = construct_api_call(params)
         if data['status'] == '1':
             result['total_transactions'] = len(data['result'])
-            # Counting failed transactions (not only out of gas)
             result['total_failed_transactions'] = sum(1 for txn in data['result'] if txn['isError'] == "1")
-            # Counting out-of-gas transactions
             result['total_oog_transactions'] = sum(1 for txn in data['result'] if txn['isError'] == "1" and get_txn_data(txn['hash']).lower() == "out of gas")
-            # Retrieving maximum gas used
-            result['maximum_gas_used'] = max(int(txn['gasUsed']) for txn in data['result'])
-            # Calculating average gas per transaction
-            total_gas = sum(int(txn['gasUsed']) for txn in data['result'])
-            result['average_gas_per_contract'] = total_gas / result['total_transactions'] if result['total_transactions'] > 0 else 0
-            # Retrieving pragma code version
+            result['maximum_gas_used_all'] = get_max_gas_used_all(data)
+            result['maximum_gas_used_oog'] = get_max_gas_used_oog(data)
+            result['gas_variability'] = calculate_gas_variability(data)
+            result['average_gas_per_contract'] = round(mean(int(txn['gasUsed']) for txn in data['result']) if result['total_transactions'] > 0 else 0, 4)
             result['pragma_code_version'] = get_pragma_code_version(address)
-            # Retrieving pragma code
-            #result['pragma_code'] = get_pragma_code(address)
         else:
             print(f"API request error for address {address}: {data['message']}\n")
             return None
