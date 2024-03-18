@@ -69,29 +69,56 @@ def get_pragma_code(address):
         return "Error in getting pragma code"
 
 
+
 # Calculate the percentage variation in gas consumption by function (methodID) for each smart contract
-def calculate_gas_variability(data):
-    gas_variability = {}
+def calculate_gas_caps(data):
+    gas_caps = {}
+
     for txn in data['result']:
         method_id = txn['input'][:10]  # first 4 bytes (8 hexadecimal characters or 10 characters if including the '0x' prefix) of the input data.
         gas_used = int(txn['gasUsed'])
         if txn['isError'] == "0":  # Only considering successful transactions
-            if method_id not in gas_variability:
-                gas_variability[method_id] = [gas_used]
+            if method_id not in gas_caps:
+                gas_caps[method_id] = [gas_used]
             else:
-                gas_variability[method_id].append(gas_used)
+                gas_caps[method_id].append(gas_used)
 
-    variability_results = {}
-    for method_id, gas_list in gas_variability.items():
+    caps_results = {}
+    for method_id, gas_list in gas_caps.items():
         if len(gas_list) > 1:
             max_gas = max(gas_list)
             min_gas = min(gas_list)
-            percentage_variation = ((max_gas - min_gas) / max_gas) * 100
+            percentage_variation = ((max_gas - min_gas) / 30000000)   # Normalize by block gas limit
         else:
             percentage_variation = 0
-        variability_results[method_id] = round(percentage_variation, 4)
+        caps_results[method_id] = round(percentage_variation, 10)
 
-    return variability_results
+    return caps_results
+
+
+# Calculate the standard deviation in gas consumption by function (methodID) for each smart contract
+def calculate_gas_std_dev(data):
+    gas_std_dev = {}
+    for txn in data['result']:
+        method_id = txn['input'][:10]  # first 4 bytes (8 hexadecimal characters or 10 characters if including the '0x' prefix) of the input data.
+        gas_used = int(txn['gasUsed'])
+        if txn['isError'] == "0":  # Only considering successful transactions
+            if method_id not in gas_std_dev:
+                gas_std_dev[method_id] = [gas_used]
+            else:
+                gas_std_dev[method_id].append(gas_used)
+
+    std_dev_results = {}
+    for method_id, gas_list in gas_std_dev.items():
+        if len(gas_list) > 1:
+            standard_deviation = stdev(gas_list)
+            normalized_std_dev = (standard_deviation / 30000000)  # Normalize by block gas limit
+        else:
+            normalized_std_dev = 0
+        std_dev_results[method_id] = round(normalized_std_dev, 10)
+
+    return std_dev_results
+
 
 # Retrieve the maximum gas consumed by all transactions
 def get_max_gas_used_all(data):
@@ -116,7 +143,8 @@ def get_address_data(address):
             result['total_oog_transactions'] = sum(1 for txn in data['result'] if txn['isError'] == "1" and get_txn_data(txn['hash']).lower() == "out of gas")
             result['maximum_gas_used_all'] = get_max_gas_used_all(data)
             result['maximum_gas_used_oog'] = get_max_gas_used_oog(data)
-            result['gas_variability'] = calculate_gas_variability(data)
+            result['gas_caps'] = calculate_gas_caps(data)
+            result['gas_std_dev'] = calculate_gas_std_dev(data)
             result['average_gas_per_contract'] = round(mean(int(txn['gasUsed']) for txn in data['result']) if result['total_transactions'] > 0 else 0, 4)
             result['pragma_code_version'] = get_pragma_code_version(address)
         else:
