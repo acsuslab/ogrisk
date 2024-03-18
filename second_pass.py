@@ -69,11 +69,11 @@ def get_pragma_code(address):
         return "Error in getting pragma code"
 
 
-# Calculate the variability in gas consumption by function (methodID) for each smart contract
+# Calculate the percentage variation in gas consumption by function (methodID) for each smart contract
 def calculate_gas_variability(data):
     gas_variability = {}
     for txn in data['result']:
-        method_id = txn['input'][:10] #first 4 bytes (8 hexadecimal characters or 10 characters if including the '0x' prefix) of the input data.
+        method_id = txn['input'][:10]  # first 4 bytes (8 hexadecimal characters or 10 characters if including the '0x' prefix) of the input data.
         gas_used = int(txn['gasUsed'])
         if txn['isError'] == "0":  # Only considering successful transactions
             if method_id not in gas_variability:
@@ -83,13 +83,13 @@ def calculate_gas_variability(data):
 
     variability_results = {}
     for method_id, gas_list in gas_variability.items():
-        mean_gas = mean(gas_list)
         if len(gas_list) > 1:
-            gas_stdev = stdev(gas_list)
-            coefficient_of_variation = (gas_stdev / mean_gas) * 100 if mean_gas != 0 else float('inf')
+            max_gas = max(gas_list)
+            min_gas = min(gas_list)
+            percentage_variation = ((max_gas - min_gas) / max_gas) * 100
         else:
-            coefficient_of_variation = 0
-        variability_results[method_id] = round(coefficient_of_variation, 4)
+            percentage_variation = 0
+        variability_results[method_id] = round(percentage_variation, 4)
 
     return variability_results
 
