@@ -1,6 +1,6 @@
 {
     "contracts_src_dir": "/home/nick/acsus/out-of-gas-ml/labels",
-    "ast_blob": "/home/nick/acsus/out-of-gas-ml/ogrisk/ast_blob.json",
+    "ast_blob": "/home/nick/acsus/out-of-gas-ml/ast_blob.json",
     "features_and_labels": "/home/nick/acsus/out-of-gas-ml/ogrisk/features_and_labels.json",
     "solidity_compilers_dir": "/home/nick/acsus/out-of-gas-ml/solc-bin/linux-amd64",
     "etherscan_api_key": "NYT56C8D9I25IIKKRE7SJZH15X4CKY68YY",
