@@ -18,41 +18,33 @@ def maug_dfs_traversal(node, idcounter):
 
     if isinstance(node, dict):
         if "type" in node.keys():
-            #print(node["type"])
             idcounter[0] += 1
             node["ogrisk_id"] = idcounter[0]
-            #pass
 
         if "name" in node.keys():
             node["ogrisk_extension_name"] = {}
             node["ogrisk_extension_name"]["type"] = "ogrisk_ext_name"
             node["ogrisk_extension_name"]["ogrisk_value"] = node["name"]
-            # idcounter[0] += 1
-            # node["ogrisk_extension_name"]["ogrisk_id"] = idcounter[0]
+
         if "number" in node.keys():
             node["ogrisk_extension_number"] = {}
             node["ogrisk_extension_number"]["type"] = "ogrisk_ext_number"
             node["ogrisk_extension_number"]["ogrisk_value"] = node["number"]
-            # idcounter[0] += 1
-            # node["ogrisk_extension_number"]["ogrisk_id"] = idcounter[0]
+
         if "isStateVar" in node.keys():
             node["ogrisk_extension_isStateVar"] = {}
             node["ogrisk_extension_isStateVar"]["type"] = "ogrisk_ext_isStateVar"
             node["ogrisk_extension_isStateVar"]["ogrisk_value"] = node["isStateVar"]
-            # idcounter[0] += 1
-            # node["ogrisk_extension_isStateVar"]["ogrisk_id"] = idcounter[0]
+
         if "isImmutable" in node.keys():
             node["ogrisk_extension_isImmutable"] = {}
             node["ogrisk_extension_isImmutable"]["type"] = "ogrisk_ext_isImmutable"
             node["ogrisk_extension_isImmutable"]["ogrisk_value"] = node["isImmutable"]
-            # idcounter[0] += 1
-            # node["ogrisk_extension_isImmutable"]["ogrisk_id"] = idcounter[0]
+
         if "isConstructor" in node.keys():
             node["ogrisk_extension_isConstructor"] = {}
             node["ogrisk_extension_isConstructor"]["type"] = "ogrisk_ext_isConstructor"
-            node["ogrisk_extension_isConstructor"]["ogrisk_value"] = node["isConstructor"]
-            # idcounter[0] += 1
-            # node["ogrisk_extension_isImmutable"]["ogrisk_id"] = idcounter[0]    
+            node["ogrisk_extension_isConstructor"]["ogrisk_value"] = node["isConstructor"]  
 
         if "isVirtual" in node.keys():
             node["ogrisk_extension_isVirtual"] = {}
@@ -89,7 +81,6 @@ def maug_dfs_traversal(node, idcounter):
         for item in node:
             maug_dfs_traversal(item, idcounter)
     else:
-        #print(node)
         pass
 
 
