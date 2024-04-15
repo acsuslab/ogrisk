@@ -17,6 +17,7 @@ import json
 import os
 
 import ast_extractor
+import ast_augmenter
 
 
 
@@ -50,14 +51,19 @@ def main():
                             contract_address = "0x" + item[:40]
                             contract_entry["address"] = contract_address
                             contract_entry["category"] = i
+
+                            node_counter = ast_augmenter.ast_augmenter(ast)
+                            
+                            contract_entry["ast_nodes"] = node_counter
                             contract_entry["ast"] = ast
                             ast_blob_json.append(contract_entry)
                             contracts_processed += 1
+                            print("Contracts processed:", contracts_processed)
                         
             with open(ogrisk_config_json["ast_blob"], 'w') as json_file:
                 json.dump(ast_blob_json, json_file, indent=4)
             
-            print(f"Contracts processed: {contracts_processed}, Errors: {errors_count}")
+            print(f"Total number of contracts processed: {contracts_processed}, Errors: {errors_count}")
         
     except FileNotFoundError:
         print(f"The file {ogrisk_config_json_filepath} was not found.")

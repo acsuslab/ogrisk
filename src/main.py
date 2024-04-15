@@ -18,6 +18,7 @@ import os
 
 import dfa_pass
 import feature_extraction_pass
+import matrix_building_pass
 
 
 class Context:
@@ -49,10 +50,12 @@ def main():
                         contract_item["address"] = item["address"]
                         contract_item["label"] = item["category"]
                         contract_item["feature_vector"] = [0] * ogrisk_config_json["number_of_features"]
+                        contract_item["matrix"]
 
                         dfa_pass.dfa_pass(item["ast"], contract_context)
 
                         feature_extraction_pass.feature_extraction_pass(contract_item["feature_vector"], item["ast"], contract_context)
+                        # matrix_building_pass.matrix_building_pass(contract_item["matrix"], item["ast"], contract_context)
 
                         features_and_labels.append(contract_item)
                         #print("address:", contract_item["address"], ", feature_vector:", contract_item)
