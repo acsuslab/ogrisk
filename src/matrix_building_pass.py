@@ -14,26 +14,39 @@
 # <https://www.gnu.org/licenses/>.
 
 
-from feature_extractors.feature000_extractor import feature000_extractor
-from feature_extractors.feature001_extractor import feature001_extractor
+import binascii
 
 
-def matrix_dfs_traversal(feature_vector, node, context):
-    feature000_extractor(feature_vector, node, context)
-    feature001_extractor(feature_vector, node, context)
-
+def matrix_dfs_traversal(matrix, node, context):
     if isinstance(node, dict):
         if "type" in node.keys():
+            if "ogrisk_id" in node.keys():
+                if node["ogrisk_id"] == 0:
+                    context.parent = 0
+                    context.parent_type = node["type"]
+
+                
+                s = str(node["type"]) + str(context.parent_type)
+                crc32_hash = binascii.crc32(s.encode())
+                crc32_int = int(crc32_hash)
+                t = (context.parent, node["ogrisk_id"], crc32_int)
+                matrix.append(t)
+
+                context.parent = node["ogrisk_id"]
+                context.parent_type = node["type"]
+            
             #print(node["type"])
             pass
+
+        
 
         context.count += 1
         for key, value in node.items():
             if isinstance(value, (dict, list)):
-                matrix_dfs_traversal(feature_vector, value, context)
+                matrix_dfs_traversal(matrix, value, context)
     elif isinstance(node, list):
         for item in node:
-            matrix_dfs_traversal(feature_vector, item, context)
+            matrix_dfs_traversal(matrix, item, context)
     else:
         #print(node)
         pass

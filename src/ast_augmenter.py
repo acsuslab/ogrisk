@@ -18,8 +18,8 @@ def maug_dfs_traversal(node, idcounter):
 
     if isinstance(node, dict):
         if "type" in node.keys():
-            idcounter[0] += 1
             node["ogrisk_id"] = idcounter[0]
+            idcounter[0] += 1
 
         if "name" in node.keys():
             node["ogrisk_extension_name"] = {}

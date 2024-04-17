@@ -15,6 +15,7 @@
 
 import json
 import os
+import numpy as np
 
 import dfa_pass
 import feature_extraction_pass
@@ -27,6 +28,8 @@ class Context:
         self.symtable = {}
         self.syntax_stack = []
         self.calls = {}
+        self.parent = 0
+        self.parent_type = ""
 
 
 def main():
@@ -49,13 +52,16 @@ def main():
                         contract_item = {}
                         contract_item["address"] = item["address"]
                         contract_item["label"] = item["category"]
-                        contract_item["feature_vector"] = [0] * ogrisk_config_json["number_of_features"]
-                        contract_item["matrix"]
+                        #contract_item["feature_vector"] = [0] * ogrisk_config_json["number_of_features"]
+                        #contract_item["adjacency_matrix"] = np.zeros((item["ast_nodes"], 3)).tolist()
+                        contract_item["flow_vector"] = []
+                        #N = item["ast_nodes"]
+                        #contract_item["adjacency_matrix"] = [[0 for _ in range(N)] for _ in range(N)]
+                        #dfa_pass.dfa_pass(item["ast"], contract_context)
+                        #matrix_building_pass.matrix_building_pass(item["ast"], contract_context)
 
-                        dfa_pass.dfa_pass(item["ast"], contract_context)
-
-                        feature_extraction_pass.feature_extraction_pass(contract_item["feature_vector"], item["ast"], contract_context)
-                        # matrix_building_pass.matrix_building_pass(contract_item["matrix"], item["ast"], contract_context)
+                        #feature_extraction_pass.feature_extraction_pass(contract_item["feature_vector"], item["ast"], contract_context)
+                        matrix_building_pass.matrix_building_pass(contract_item["flow_vector"], item["ast"], contract_context)
 
                         features_and_labels.append(contract_item)
                         #print("address:", contract_item["address"], ", feature_vector:", contract_item)
