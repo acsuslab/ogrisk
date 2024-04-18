@@ -2,21 +2,18 @@ import json
 import os
 import requests
 import time
-from dotenv import load_dotenv
 from statistics import mean, stdev
 
 
 # Constants
 ETHERSCAN_API_URL = 'https://api.etherscan.io/api'
 
-# Load environment variables from the .env file
-load_dotenv()
 
 # Retrieve the API key from the environment variables
 API_KEY = 'NYT56C8D9I25IIKKRE7SJZH15X4CKY68YY'
 
 # File path for data storage
-file_path = "/Users/user/Desktop/Rowan PhD Data Science/Spring 2024/CS 07556_Machine Learning 1/Paper project/OGRISK_EtereumAPI/data.json"
+file_path = "/home/maryam/Desktop/Ogrisk/data.json"
 
 # Initialize data structure
 data = {'current_contract_index': 0, 'open_source_contracts': []}
