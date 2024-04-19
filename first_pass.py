@@ -1,14 +1,11 @@
 import json
 import os
-from dotenv import load_dotenv
 
 ETHERSCAN_API_URL = 'https://api.etherscan.io/api'
 
-# Load environment variables from the .env file
-load_dotenv()
 
 # Retrieve the API key from the environment variables
-API_KEY = os.getenv('API_KEY')
+API_KEY = 'NYT56C8D9I25IIKKRE7SJZH15X4CKY68YY'
 
 data = {}
 data['current_contract_index'] = 0
@@ -17,10 +14,10 @@ mainnet_foldernames = []
 num_addresses = 0
 
 #!!! change this to whatever filepath the contract folders are held in
-smart_contracts_file_path = "/Users/user/Desktop/Rowan PhD Data Science/Spring 2024/CS 07556_Machine Learning 1/Paper project/smart-contract-sanctuary-ethereum-master/contracts/mainnet/"
+smart_contracts_file_path = "/home/maryam/Desktop/Ogrisk/mainnet/"
 
 #!!! change this to whatever file you want the addresses to be written to
-file_path = "/Users/user/Desktop/Rowan PhD Data Science/Spring 2024/CS 07556_Machine Learning 1/Paper project/OGRISK_EtereumAPI/data.json"
+file_path = "/home/maryam/Desktop/Ogrisk//data.json"
 
 #getting the foldernames from the mainnet directory
 mainnet_foldernames = filtered_files = [file for file in os.listdir(smart_contracts_file_path) if '.' not in file]
