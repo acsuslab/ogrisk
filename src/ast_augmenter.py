@@ -21,35 +21,35 @@ def maug_dfs_traversal(node, idcounter):
             node["ogrisk_id"] = idcounter[0]
             idcounter[0] += 1
 
-        if "name" in node.keys():
-            node["ogrisk_extension_name"] = {}
-            node["ogrisk_extension_name"]["type"] = "ogrisk_ext_name"
-            node["ogrisk_extension_name"]["ogrisk_value"] = node["name"]
+        # if "name" in node.keys():
+        #     node["ogrisk_extension_name"] = {}
+        #     node["ogrisk_extension_name"]["type"] = "ogrisk_ext_name"
+        #     node["ogrisk_extension_name"]["ogrisk_value"] = node["name"]
 
-        if "number" in node.keys():
-            node["ogrisk_extension_number"] = {}
-            node["ogrisk_extension_number"]["type"] = "ogrisk_ext_number"
-            node["ogrisk_extension_number"]["ogrisk_value"] = node["number"]
+        # if "number" in node.keys():
+        #     node["ogrisk_extension_number"] = {}
+        #     node["ogrisk_extension_number"]["type"] = "ogrisk_ext_number"
+        #     node["ogrisk_extension_number"]["ogrisk_value"] = node["number"]
 
         if "isStateVar" in node.keys():
             node["ogrisk_extension_isStateVar"] = {}
             node["ogrisk_extension_isStateVar"]["type"] = "ogrisk_ext_isStateVar"
             node["ogrisk_extension_isStateVar"]["ogrisk_value"] = node["isStateVar"]
 
-        if "isImmutable" in node.keys():
-            node["ogrisk_extension_isImmutable"] = {}
-            node["ogrisk_extension_isImmutable"]["type"] = "ogrisk_ext_isImmutable"
-            node["ogrisk_extension_isImmutable"]["ogrisk_value"] = node["isImmutable"]
+        # if "isImmutable" in node.keys():
+        #     node["ogrisk_extension_isImmutable"] = {}
+        #     node["ogrisk_extension_isImmutable"]["type"] = "ogrisk_ext_isImmutable"
+        #     node["ogrisk_extension_isImmutable"]["ogrisk_value"] = node["isImmutable"]
 
         if "isConstructor" in node.keys():
             node["ogrisk_extension_isConstructor"] = {}
             node["ogrisk_extension_isConstructor"]["type"] = "ogrisk_ext_isConstructor"
             node["ogrisk_extension_isConstructor"]["ogrisk_value"] = node["isConstructor"]  
 
-        if "isVirtual" in node.keys():
-            node["ogrisk_extension_isVirtual"] = {}
-            node["ogrisk_extension_isVirtual"]["type"] = "ogrisk_ext_isVirtual"
-            node["ogrisk_extension_isVirtual"]["ogrisk_value"] = node["isVirtual"]
+        # if "isVirtual" in node.keys():
+        #     node["ogrisk_extension_isVirtual"] = {}
+        #     node["ogrisk_extension_isVirtual"]["type"] = "ogrisk_ext_isVirtual"
+        #     node["ogrisk_extension_isVirtual"]["ogrisk_value"] = node["isVirtual"]
 
         if "stateMutability" in node.keys():
             node["ogrisk_extension_stateMutability"] = {}
@@ -57,10 +57,10 @@ def maug_dfs_traversal(node, idcounter):
             node["ogrisk_extension_stateMutability"]["ogrisk_value"] = node["stateMutability"]
 
         
-        if "visibility" in node.keys():
-            node["ogrisk_extension_visibility"] = {}
-            node["ogrisk_extension_visibility"]["type"] = "ogrisk_ext_visibility"
-            node["ogrisk_extension_visibility"]["ogrisk_value"] = node["visibility"]
+        # if "visibility" in node.keys():
+        #     node["ogrisk_extension_visibility"] = {}
+        #     node["ogrisk_extension_visibility"]["type"] = "ogrisk_ext_visibility"
+        #     node["ogrisk_extension_visibility"]["ogrisk_value"] = node["visibility"]
 
 
         # if "modifiers" in node.keys():

@@ -20,6 +20,7 @@ import numpy as np
 import dfa_pass
 import feature_extraction_pass
 import matrix_building_pass
+import trimmed_matrix_building_pass
 
 
 class Context:
@@ -61,7 +62,7 @@ def main():
                         #matrix_building_pass.matrix_building_pass(item["ast"], contract_context)
 
                         #feature_extraction_pass.feature_extraction_pass(contract_item["feature_vector"], item["ast"], contract_context)
-                        matrix_building_pass.matrix_building_pass(contract_item["flow_vector"], item["ast"], contract_context)
+                        trimmed_matrix_building_pass.trimmed_matrix_building_pass(contract_item["flow_vector"], item["ast"], contract_context)
 
                         features_and_labels.append(contract_item)
                         #print("address:", contract_item["address"], ", feature_vector:", contract_item)
