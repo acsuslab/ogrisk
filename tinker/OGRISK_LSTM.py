@@ -1,11 +1,10 @@
 import json
 import numpy as np
-import tensorflow as tf
-from sklearn.model_selection import KFold
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score, precision_score, recall_score, accuracy_score
+import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM
-import matplotlib.pyplot as plt
 
 # Load data from JSON file
 with open('/content/drive/MyDrive/features_and_labels.json', 'r') as f:
@@ -30,15 +29,39 @@ for entry in data:
 
 print("Maximum length of flow vectors:", max_length)
 
+# Number of features in each flow vector
+num_features = 3
+
+# Number of rows (sequences or time steps)
+num_rows = max_length
+
+# Number of columns (features)
+num_columns = num_features
+
+print("Size of the matrix:", num_rows, "x", num_columns)
+
+# Extract labels
+labels = [entry['label'] for entry in data]
+
+# Count unique labels
+unique_labels = set(labels)
+num_unique_labels = len(unique_labels)
+
+print("Unique labels:", unique_labels)
+print("Number of unique labels:", num_unique_labels)
+
 # Pad sequences to ensure uniform length (optional)
 X = tf.keras.preprocessing.sequence.pad_sequences(X, maxlen=max_length, padding='post')
 
 # Convert labels to numpy array and shift to range [0, num_classes - 1]
 y = np.array(y) - 1
 
+# Split data into training and validation sets
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
+
 # Define the model
 model = Sequential([
-    LSTM(32, activation='tanh', input_shape=(max_length, X.shape[2])),
+    LSTM(32, activation='tanh', input_shape=(max_length, X_train.shape[2])),
     Dense(16, activation='tanh'),
     Dense(8, activation='tanh'),
     Dense(3, activation='softmax') # Final dense layer with 3 units for 3 classes
@@ -49,67 +72,31 @@ model.compile(optimizer='adam',
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
 
-# Perform k-fold cross-validation
-kf = KFold(n_splits=5, shuffle=True, random_state=42)
-f1_scores = []
-precision_scores = []
-recall_scores = []
-accuracy_scores = []
-training_accuracies = []
-validation_accuracies = []
+# Train the model
+history = model.fit(X_train, y_train, epochs=10, batch_size=16, validation_data=(X_val, y_val))
 
-for train_index, val_index in kf.split(X):
-    X_train, X_val = X[train_index], X[val_index]
-    y_train, y_val = y[train_index], y[val_index]
+# Predict labels for validation set
+y_pred = model.predict(X_val)
+y_pred_classes = np.argmax(y_pred, axis=1)
 
-    # Train the model
-    history = model.fit(X_train, y_train, epochs=10, batch_size=16, verbose=0, validation_data=(X_val, y_val))
+# Calculate performance metrics
+f1 = f1_score(y_val, y_pred_classes, average='weighted')
+precision = precision_score(y_val, y_pred_classes, average='weighted')
+recall = recall_score(y_val, y_pred_classes, average='weighted')
+accuracy = accuracy_score(y_val, y_pred_classes)
 
-    # Predict labels for validation set
-    y_pred = model.predict(X_val)
-    y_pred_classes = np.argmax(y_pred, axis=1)
+print("F1 Score:", f1)
+print("Precision:", precision)
+print("Recall:", recall)
+print("Accuracy:", accuracy)
 
-    # Calculate performance metrics
-    f1 = f1_score(y_val, y_pred_classes, average='weighted')
-    precision = precision_score(y_val, y_pred_classes, average='weighted')
-    recall = recall_score(y_val, y_pred_classes, average='weighted')
-    accuracy = accuracy_score(y_val, y_pred_classes)
+import matplotlib.pyplot as plt
 
-    f1_scores.append(f1)
-    precision_scores.append(precision)
-    recall_scores.append(recall)
-    accuracy_scores.append(accuracy)
-
-    # Store training and validation accuracies
-    training_accuracies.append(history.history['accuracy'])
-    validation_accuracies.append(history.history['val_accuracy'])
-
-# Calculate mean scores
-mean_f1 = np.mean(f1_scores)
-mean_precision = np.mean(precision_scores)
-mean_recall = np.mean(recall_scores)
-mean_accuracy = np.mean(accuracy_scores)
-
-print("Mean F1 Score:", mean_f1)
-print("Mean Precision:", mean_precision)
-print("Mean Recall:", mean_recall)
-print("Mean Accuracy:", mean_accuracy)
-
-# Plot mean scores
-metrics = ['F1 Score', 'Precision', 'Recall', 'Accuracy']
-mean_scores = [mean_f1, mean_precision, mean_recall, mean_accuracy]
-
-plt.bar(metrics, mean_scores, color=['blue', 'green', 'red', 'orange'])
-plt.title('Mean Performance Metrics Across Folds')
-plt.xlabel('Metric')
-plt.ylabel('Mean Score')
-plt.show()
-
-# Plot training and validation accuracies
-plt.plot(np.mean(training_accuracies, axis=0), label='Training Accuracy')
-plt.plot(np.mean(validation_accuracies, axis=0), label='Validation Accuracy')
-plt.title('Mean Training and Validation Accuracies Across Folds')
+# Plot training and validation errors
+plt.plot(history.history['loss'], label='Training Loss')
+plt.plot(history.history['val_loss'], label='Validation Loss')
+plt.title('Training and Validation Loss')
 plt.xlabel('Epoch')
-plt.ylabel('Accuracy')
+plt.ylabel('Loss')
 plt.legend()
 plt.show()

@@ -1,11 +1,11 @@
 {
-    "contracts_src_dir": "/home/nick/acsus/out-of-gas-ml/labels",
-    "ast_blob": "/home/nick/acsus/out-of-gas-ml/ast_blob_augmented.json",
-    "features_and_labels": "/home/nick/acsus/out-of-gas-ml/features_and_labels.json",
-    "solidity_compilers_dir": "/home/nick/acsus/out-of-gas-ml/solc-bin/linux-amd64",
+    "contracts_src_dir": "/Users/ivanov/acsus/out-of-gas-ml/labels",
+    "ast_blob": "/Users/ivanov/acsus/acsus/out-of-gas-ml/ast_blob_augmented_smart.json",
+    "features_and_labels": "/Users/ivanov/acsus/out-of-gas-ml/features_and_labels_full.json",
+    "features_and_labels_hist": "/Users/ivanov/acsus/out-of-gas-ml/features_and_labels_hist.json",
+    "solidity_compilers_dir": "/Users/ivanov/acsus/out-of-gas-ml/solc-bin/linux-amd64",
     "etherscan_api_key": "NYT56C8D9I25IIKKRE7SJZH15X4CKY68YY",
     "etherscan_api_url": "https://api.etherscan.io/api",
     "compiler_name_prefix": "solc-linux-amd64-",
-    "universal_parser_path": "/home/nick/acsus/out-of-gas-ml/ogrisk/src/up.sh",
-    "number_of_features": 200
+    "universal_parser_path": "/Users/ivanov/acsus/out-of-gas-ml/ogrisk/src/up.sh"
 }

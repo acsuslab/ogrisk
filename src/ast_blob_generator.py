@@ -18,6 +18,8 @@ import os
 
 import ast_extractor
 import ast_augmenter
+import ast_augmenter_full
+import ast_augmenter_smart
 
 
 
@@ -52,7 +54,8 @@ def main():
                             contract_entry["address"] = contract_address
                             contract_entry["category"] = i
 
-                            node_counter = ast_augmenter.ast_augmenter(ast)
+                            #node_counter = ast_augmenter.ast_augmenter(ast)
+                            node_counter = ast_augmenter_smart.ast_augmenter_smart(ast)
                             
                             contract_entry["ast_nodes"] = node_counter
                             contract_entry["ast"] = ast

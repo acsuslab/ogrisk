@@ -45,36 +45,32 @@ def main():
             ogrisk_config_json = json.load(file)
 
             try:
-                with open(ogrisk_config_json["ast_blob"], 'r') as file:
+                with open(ogrisk_config_json["features_and_labels"], 'r') as file:
                     data = json.load(file)
-                
-                if isinstance(data, list):
-                    for item in data:
-                        contract_context = Context()
-                        contract_item = {}
-                        contract_item["address"] = item["address"]
-                        contract_item["label"] = item["category"]
-                        #contract_item["feature_vector"] = [0] * ogrisk_config_json["number_of_features"]
-                        #contract_item["adjacency_matrix"] = np.zeros((item["ast_nodes"], 3)).tolist()
-                        contract_item["flow_vector"] = []
-                        #N = item["ast_nodes"]
-                        #contract_item["adjacency_matrix"] = [[0 for _ in range(N)] for _ in range(N)]
-                        #dfa_pass.dfa_pass(item["ast"], contract_context)
-                        #matrix_building_pass.matrix_building_pass(item["ast"], contract_context)
 
-                        #feature_extraction_pass.feature_extraction_pass(contract_item["feature_vector"], item["ast"], contract_context)
-                        #trimmed_matrix_building_pass.trimmed_matrix_building_pass(contract_item["flow_vector"], item["ast"], contract_context)
-                        full_tuples_building_pass.full_tuples_building_pass(contract_item["flow_vector"], item["ast"], contract_context)
+                st = set()
 
-                        features_and_labels.append(contract_item)
-                        #print("address:", contract_item["address"], ", feature_vector:", contract_item)
+                for item in data:
+                    for x in item["flow_vector"]:
+                        st.add(x[2])
 
+                stlist = list(st)
+                N = len(stlist)
+
+                for item in data:
+                    hist = [0] * N
+
+                    for x in item["flow_vector"]:
+                        for i in range(N):
+                            if stlist[i] == x[2]:
+                                hist[i] += 1
+
+                    item["flow_vector"] = hist
                     
-                    with open(ogrisk_config_json["features_and_labels"], 'w') as json_file:
-                        json.dump(features_and_labels, json_file, indent=4)
+                with open(ogrisk_config_json["features_and_labels_hist"], 'w') as json_file:
+                    json.dump(data, json_file, indent=4)
 
-                else:
-                    print("The file does not contain a JSON array.")
+
             except FileNotFoundError:
                 print(f"The config file was not found.")
             except json.JSONDecodeError:
