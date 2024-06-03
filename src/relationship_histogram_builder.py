@@ -57,6 +57,8 @@ def main():
                 stlist = list(st)
                 N = len(stlist)
 
+                print("Histogram size:", N)
+
                 for item in data:
                     hist = [0] * N
 

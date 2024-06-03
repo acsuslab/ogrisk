@@ -28,10 +28,10 @@ def maugs_dfs_traversal(node, idcounter):
             node["ogrisk_extension_name"]["type"] = "ogrisk_ext_name"
             node["ogrisk_extension_name"]["ogrisk_value"] = node["name"]
 
-        if "number" in node.keys():
-            node["ogrisk_extension_number"] = {}
-            node["ogrisk_extension_number"]["type"] = "ogrisk_ext_number"
-            node["ogrisk_extension_number"]["ogrisk_value"] = node["number"]
+        # if "number" in node.keys():
+        #     node["ogrisk_extension_number"] = {}
+        #     node["ogrisk_extension_number"]["type"] = "ogrisk_ext_number"
+        #     node["ogrisk_extension_number"]["ogrisk_value"] = node["number"]
 
         if "isStateVar" in node.keys():
             node["ogrisk_extension_isStateVar"] = {}
