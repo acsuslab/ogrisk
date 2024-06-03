@@ -74,7 +74,7 @@ def maugs_dfs_traversal(node, idcounter):
             if node["type"] == "NumberLiteral":
                 node["ogrisk_extension_numberLiteral"] = {}
                 node["ogrisk_extension_numberLiteral"]["type"] = "ogrisk_ext_numberLiteral"
-                node["ogrisk_extension_numberLiteral"]["ogrisk_value"] = int(math.log10(int(eval(node["number"]))))
+                node["ogrisk_extension_numberLiteral"]["ogrisk_value"] = int(math.log10(int(eval(node["number"]))+1))
 
 
         if "modifiers" in node.keys():

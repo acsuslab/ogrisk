@@ -1,6 +1,6 @@
 {
     "contracts_src_dir": "/Users/ivanov/acsus/out-of-gas-ml/labels",
-    "ast_blob": "/Users/ivanov/acsus/acsus/out-of-gas-ml/ast_blob_augmented_smart.json",
+    "ast_blob": "/Users/ivanov/acsus/out-of-gas-ml/ast_blob_augmented_smart.json",
     "features_and_labels": "/Users/ivanov/acsus/out-of-gas-ml/features_and_labels_full.json",
     "features_and_labels_hist": "/Users/ivanov/acsus/out-of-gas-ml/features_and_labels_hist.json",
     "solidity_compilers_dir": "/Users/ivanov/acsus/out-of-gas-ml/solc-bin/linux-amd64",
